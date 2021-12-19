@@ -207,6 +207,9 @@ def make_test_signals(rate):
     print("cat")
 
     outdataL = np.concatenate((
+        silence400,
+        silence400,
+        silence400,
         syncpulse,
         sine_sweep_data,
         silence400,
@@ -222,6 +225,9 @@ def make_test_signals(rate):
         syncpulse
     ))
     outdataR = np.concatenate((
+        silence400,
+        silence400,
+        silence400,
         syncpulse,
         np.flip(sine_sweep_data),
         silence400,
