@@ -1,6 +1,20 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <ogc/audio.h>
+#include <ogc/color.h>
+#include <ogc/system.h>
+#include <ogc/video.h>
+
+static GXRModeObj rmode = {
+	.viTVMode  = VI_TVMODE_NTSC_INT,
+	.fbWidth   = 704,
+	.xfbHeight = 486,
+	.viXOrigin = (VI_MAX_WIDTH_NTSC  - 704) / 2,
+	.viYOrigin = (VI_MAX_HEIGHT_NTSC - 486) / 2,
+	.viWidth   = 704,
+	.viHeight  = 486,
+	.xfbMode   = VI_XFBMODE_PSF
+};
 
 #if HZ < 48000
 #include "mdfourier_dac_32000_pcm.h"
@@ -27,6 +41,17 @@ static void callback(void)
 
 int main(int argc, char **argv)
 {
+	void *xfb = SYS_AllocateFramebuffer(&rmode);
+
+	VIDEO_Init();
+	VIDEO_Configure(&rmode);
+	VIDEO_ClearFrameBuffer(&rmode, xfb, COLOR_WHITE);
+	VIDEO_SetNextFramebuffer(xfb);
+	VIDEO_SetBlack(false);
+	VIDEO_Flush();
+	VIDEO_WaitVSync();
+	VIDEO_WaitVSync();
+
 	AUDIO_Init();
 	#if HZ < 48000
 	AUDIO_SetDSPSampleRate(AI_SAMPLERATE_32KHZ);
@@ -39,5 +64,6 @@ int main(int argc, char **argv)
 	while (AUDIO_GetDMALength());
 	while (AUDIO_GetDMABytesLeft());
 	AUDIO_StopDMA();
+
 	return EXIT_SUCCESS;
 }
