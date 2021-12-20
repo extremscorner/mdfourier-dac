@@ -222,8 +222,11 @@ def make_test_signals(rate):
         silence400,
         silence400,
         fade_data,
-        syncpulse
-    ))
+        syncpulse,
+        silence400,
+        silence400,
+        silence400
+    )) - 1
     outdataR = np.concatenate((
         silence400,
         silence400,
@@ -240,8 +243,11 @@ def make_test_signals(rate):
         silence400,
         silence400,
         fade_data,
-        syncpulse
-    ))
+        syncpulse,
+        silence400,
+        silence400,
+        silence400
+    )) - 1
     return np.vstack((outdataL, outdataR))
 
 def main():
