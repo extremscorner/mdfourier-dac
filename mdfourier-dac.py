@@ -251,7 +251,7 @@ def make_test_signals(rate):
     return np.vstack((outdataL, outdataR))
 
 def main():
-    for rate in (32000, 48000, 96000):
+    for rate in (48000, 96000):
         outdata = make_test_signals(rate)
         filename = "mdfourier-dac-%d.wav" % rate
         print("Writing", filename)
